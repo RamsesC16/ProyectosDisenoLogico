@@ -1,38 +1,11 @@
-module module_prueba # (
+module decodificador ( // Modulo decodificador de una palabra de 7 bits. Segunda parte del código de hamming 3
+    input logic [6:0] datos_cod,     //Entrada de 7 bits [i3,i2,i1,c2,i0,c1,c0]
+    output logic [3:0] datos_out      //Salida de 4 bits [i3,i2,i1,i0]
+); 
 
-    parameter count= 13500000
-    
-)(
-    input logic clk,
-    input logic rst,
+assign datos_out[0] = datos_cod[2]; // i0
+assign datos_out[1] = datos_cod[4]; // i1
+assign datos_out[2] = datos_cod[5]; // i2
+assign datos_out[3] = datos_cod[6]; // i3
 
-    output logic [5 : 0] count_o
-);
-
-
-localparam width_count = $clog2(count);
-
-logic [width_count - 1 : 0]  clk_counter = '0;
-logic [5 : 0] led_count_r;
-
-
-always_ff @ (posedge clk) begin
-    if (!rst) begin
-        led_count_r <= '0;
-        clk_counter   <= '0;
-    end
-    
-    else if (clk_counter == count - 1) begin
-        clk_counter <= '0;
-        led_count_r <= led_count_r + 1'b1;
-    end
-
-    else begin
-        clk_counter <= clk_counter + 1'b1;
-        led_count_r <= led_count_r;
-    end
-end
-
-
-assign count_o = ~led_count_r;
 endmodule
