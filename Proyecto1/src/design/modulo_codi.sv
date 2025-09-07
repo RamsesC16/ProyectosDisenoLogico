@@ -1,38 +1,13 @@
-module module_prueba # (
-
-    parameter count= 13500000
-    
-)(
-    input logic clk,
-    input logic rst,
-
-    output logic [5 : 0] count_o
+module codificador ( // Modulo codificador de una palabra de 4 bits. 
+    input logic [3:0] datos_in,      //Entrada de 4 bits 
+    output logic [6:0] datos_cod,     //Salida de 7 bits 
 );
+assign datos_cod[2] = datos_in[0]; // i0
+assign datos_cod[4] = datos_in[1]; // i1
+assign datos_cod[5] = datos_in[2]; // i2
+assign datos_cod[6] = datos_in[3]; // i3
 
-
-localparam width_count = $clog2(count);
-
-logic [width_count - 1 : 0]  clk_counter = '0;
-logic [5 : 0] led_count_r;
-
-
-always_ff @ (posedge clk) begin
-    if (!rst) begin
-        led_count_r <= '0;
-        clk_counter   <= '0;
-    end
-    
-    else if (clk_counter == count - 1) begin
-        clk_counter <= '0;
-        led_count_r <= led_count_r + 1'b1;
-    end
-
-    else begin
-        clk_counter <= clk_counter + 1'b1;
-        led_count_r <= led_count_r;
-    end
-end
-
-
-assign count_o = ~led_count_r;
+assign datos_cod[0] = datos_in[0]^datos_in[1]^datos_in[3]; // c0 cubre la paridad de los bits 1,2,4 
+assign datos_cod[1] = datos_in[0]^datos_in[2]^datos_in[3]; // c1 cubre la paridad de los bits 1,3,4
+assign datos_cod[3] = datos_in[1]^datos_in[2]^datos_in[3]; // c2 cubre la paridad de los bits 2,3,4
 endmodule
