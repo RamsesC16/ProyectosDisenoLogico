@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module module_prueba_tb;
+module modulo_prueba_tb;
 
     // Testbench signals
     logic clk;
@@ -8,7 +8,7 @@ module module_prueba_tb;
     logic [5:0] count_o;
 
     // Instantiate the Unit Under Test 
-    module_prueba #(10) counter (
+    modulo_prueba #(10) counter (
         .clk(clk),
         .rst(rst),
         .count_o(count_o)
@@ -33,8 +33,8 @@ module module_prueba_tb;
 
 
     initial begin
-        $dumpfile("module_prueba_tb.vcd");  // For waveform viewing
-        $dumpvars(0, module_prueba_tb);
+        $dumpfile("modulo_prueba_tb.vcd");  // For waveform viewing
+        $dumpvars(0, modulo_prueba_tb);
     end
 
 endmodule
