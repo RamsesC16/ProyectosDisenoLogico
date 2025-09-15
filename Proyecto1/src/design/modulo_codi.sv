@@ -1,4 +1,4 @@
-module modulo_codi (
+module module_codificador (
     input  logic [3:0] datos_in,   // Entrada de 4 bits [3,2,1,0]
     output logic [7:0] datos_cod   // Salida de 8 bits [7..0]
 );

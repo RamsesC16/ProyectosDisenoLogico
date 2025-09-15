@@ -1,4 +1,4 @@
-module modulo_decodi ( 
+module module_decodi ( 
     input  logic [7:0] datos_cod,   // Entrada de 8 bits [p0,i3,i2,i1,c2,i0,c1,c0]
     output logic [3:0] datos_out    // Salida de 4 bits [i3,i2,i1,i0]
 );
