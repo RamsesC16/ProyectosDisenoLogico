@@ -1,13 +1,13 @@
 `timescale 1ns / 1ns
 
-module modulo_decodi_tb; 
+module module_decodi_tb; 
 
     // Señales de prueba
     reg  [7:0] recibido;   // Entrada: Palabra de 8 bits corregida
     wire [3:0] salida;     // Salida: Datos originales de 4 bits
 
     // Instanciar el módulo decodificador de 8 bits
-    modulo_decodi dut (
+    module_decodi dut (
         .datos_cod(recibido),
         .datos_out(salida)
     );
@@ -35,8 +35,8 @@ module modulo_decodi_tb;
     end
     
     initial begin
-        $dumpfile("modulo_decodi_tb.vcd"); 
-        $dumpvars(0, modulo_decodi_tb); 
+        $dumpfile("module_decodi_tb.vcd"); 
+        $dumpvars(0, module_decodi_tb); 
     end
 
 endmodule

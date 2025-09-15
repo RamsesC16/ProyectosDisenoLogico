@@ -1,4 +1,4 @@
-module modulo_detector_error(
+module module_detector_error(
     input  logic [7:0] datos_recibidos,  // Entrada de 8 bits [p0,i3,i2,i1,c2,i0,c1,c0]
     output logic [2:0] sindrome,         // Síndrome de error (p2,p1,p0)
     output logic       bit_error,        // Señal general de error (1 = hay error)

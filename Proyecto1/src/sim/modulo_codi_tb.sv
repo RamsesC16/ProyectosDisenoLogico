@@ -1,12 +1,12 @@
 `timescale 1ns/1ns
 
-module modulo_codi_tb;
+module module_codi_tb;
 
     reg  [3:0] datos_in;     // Entrada de 4 bits
     wire [7:0] datos_cod;    // Salida codificada de 8 bits
 
     // Instanciamos el módulo del codificador de 8 bits
-    modulo_codi dut (
+    module_codi dut (
         .datos_in(datos_in),
         .datos_cod(datos_cod)
     );
@@ -70,8 +70,8 @@ module modulo_codi_tb;
     end
 
     initial begin
-        $dumpfile("modulo_codi_tb.vcd"); 
-        $dumpvars(0, modulo_codi_tb); 
+        $dumpfile("module_codi_tb.vcd"); 
+        $dumpvars(0, module_codi_tb); 
     end
 
 endmodule
