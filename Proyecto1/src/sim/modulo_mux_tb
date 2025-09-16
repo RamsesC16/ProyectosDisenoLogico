@@ -1,0 +1,63 @@
+`timescale 1ns/1ns
+
+module modulo_mux_tb;
+
+    // Entradas de prueba
+    reg  [6:0] siete_seg;   
+    reg  [6:0] error;       
+    reg        swi;         
+    reg        error_simple;
+    reg        error_doble;
+    reg        no_error;    
+
+    // Salida
+    wire [6:0] salida_mux;  
+
+    // Instancia del DUT
+    module_mux dut (
+        .siete_seg(siete_seg),
+        .error(error),
+        .swi(swi),
+        .error_simple(error_simple),
+        .error_doble(error_doble),
+        .no_error(no_error),
+        .salida_mux(salida_mux)
+    );
+
+    initial begin
+        $display("Tiempo | swi | siete_seg | error    | simple | doble | no_error | salida_mux");
+        $display("-------|-----|-----------|----------|--------|-------|----------|-----------");
+
+        // Valores de prueba iniciales
+        siete_seg = 7'b1111110; // Ejemplo: muestra '0'
+        error     = 7'b0110000; // Ejemplo: muestra '1'
+
+        // Caso 1: Sin error
+        error_simple = 0; error_doble = 0; no_error = 1; swi = 0; #10;
+        $display("%4t   |  %b  |  %b  |  %b  |   %b    |   %b   |    %b    |   %b",
+                 $time, swi, siete_seg, error, error_simple, error_doble, no_error, salida_mux);
+
+        // Caso 2: Error simple
+        error_simple = 1; error_doble = 0; no_error = 0; swi = 1; #10;
+        $display("%4t   |  %b  |  %b  |  %b  |   %b    |   %b   |    %b    |   %b",
+                 $time, swi, siete_seg, error, error_simple, error_doble, no_error, salida_mux);
+
+        // Caso 3: Error doble
+        error_simple = 0; error_doble = 1; no_error = 0; swi = 0; #10;
+        $display("%4t   |  %b  |  %b  |  %b  |   %b    |   %b   |    %b    |   %b",
+                 $time, swi, siete_seg, error, error_simple, error_doble, no_error, salida_mux);
+
+        // Caso 4: Estado raro (ninguna bandera activa)
+        error_simple = 0; error_doble = 0; no_error = 0; swi = 1; #10;
+        $display("%4t   |  %b  |  %b  |  %b  |   %b    |   %b   |    %b    |   %b",
+                 $time, swi, siete_seg, error, error_simple, error_doble, no_error, salida_mux);
+
+        $finish;
+    end
+
+    initial begin
+        $dumpfile("module_mux_tb.vcd");
+        $dumpvars(0, module_mux_tb);
+    end
+
+endmodule
