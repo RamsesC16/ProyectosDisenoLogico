@@ -2,74 +2,52 @@
 
 module modulo_top_tb;
 
-    // Entradas
-    reg  [3:0] entrada;       // palabra original
-    reg  [7:0] palabra_rx;    // palabra recibida/alterada
+    reg  [3:0] entrada;
+    reg  [7:0] palabra_rx;
+    reg        select_pos;
+    wire [6:0] display_left;
+    wire [6:0] display_right;
+    wire [3:0] led_out;
 
-    // Salidas
-    wire [6:0] display_word;  
-    wire [3:0] led_out;       
-    wire [6:0] display_error; 
-
-    // Instancia del DUT
+    // Instanciamos el top
     modulo_top dut (
         .entrada(entrada),
         .palabra_rx(palabra_rx),
-        .display_word(display_word),
-        .led_out(led_out),
-        .display_error(display_error)
+        .select_pos(select_pos),
+        .display_left(display_left),
+        .display_right(display_right),
+        .led_out(led_out)
     );
 
-    // Variables internas para comparación
-    reg [7:0] codificado_ref;
-
     initial begin
-        $display("Tiempo | Entrada | RX        | LED_OUT | Disp_Word | Disp_Error");
-        $display("-------------------------------------------------------------");
+        $display("Tiempo | Entrada | Palabra RX | select_pos | LEDs | Disp_L | Disp_R");
+        $display("-------|---------|------------|------------|------|--------|--------");
 
-        // Caso base: palabra original 1010
-        entrada = 4'b1010;
-
-        // Primero, obtenemos la palabra codificada de referencia
-        // (simulamos lo que haría el codificador para "entrada")
-        // Para simplificar, puedes tomarlo manual del codificador, 
-        // pero aquí asumimos que codificador del DUT ya lo calcula
-        #5;
-        codificado_ref = dut.codificado;
-
-        // -----------------------
-        // Caso 1: Sin error
-        // -----------------------
-        palabra_rx = codificado_ref; #10;
-        $display("%0t | %b | %b | %b | %b | %b", 
-                 $time, entrada, palabra_rx, led_out, display_word, display_error);
-
-        // -----------------------
-        // Casos 2–9: Error simple en cada bit
-        // -----------------------
-        for (int i = 0; i < 8; i++) begin
-            palabra_rx = codificado_ref;
-            palabra_rx[i] = ~palabra_rx[i]; // invertir un bit
-            #10;
-            $display("%0t | %b | %b | %b | %b | %b", 
-                     $time, entrada, palabra_rx, led_out, display_word, display_error);
-        end
-
-        // -----------------------
-        // Caso 10: Error doble
-        // -----------------------
-        palabra_rx = codificado_ref;
-        palabra_rx[0] = ~palabra_rx[0];
-        palabra_rx[3] = ~palabra_rx[3];
+        // Caso 1: palabra sin error
+        entrada    = 4'b1010;
+        palabra_rx = 8'b01010101; // ejemplo válido
+        select_pos = 0;
         #10;
-        $display("%0t | %b | %b | %b | %b | %b", 
-                 $time, entrada, palabra_rx, led_out, display_word, display_error);
+        $display("%t | %b | %b | %b | %b | %b | %b",
+                 $time, entrada, palabra_rx, select_pos, led_out, display_left, display_right);
 
+        // Caso 2: error simple en bit 2
+        palabra_rx = 8'b01010111; // alterado un bit
+        select_pos = 1;
         #10;
+        $display("%t | %b | %b | %b | %b | %b | %b",
+                 $time, entrada, palabra_rx, select_pos, led_out, display_left, display_right);
+
+        // Caso 3: error doble
+        palabra_rx = 8'b01011111; // alterados dos bits
+        select_pos = 1;
+        #10;
+        $display("%t | %b | %b | %b | %b | %b | %b",
+                 $time, entrada, palabra_rx, select_pos, led_out, display_left, display_right);
+
         $finish;
     end
 
-    // Para GTKWave
     initial begin
         $dumpfile("modulo_top_tb.vcd");
         $dumpvars(0, modulo_top_tb);

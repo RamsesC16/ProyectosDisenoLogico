@@ -1,4 +1,4 @@
-module module_7segmentos (
+module modulo_7segmentos (
     input  logic [3:0] data,      // Entrada: valor en hex (0–F)
     output logic [6:0] display    // Salida: segmentos [a..g]
 );
