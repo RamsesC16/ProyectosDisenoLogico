@@ -1,10 +1,11 @@
 module modulo_top (
     input  logic [3:0] entrada,       // palabra original (4 bits desde switches)
     input  logic [7:0] palabra_rx,    // palabra recibida/alterada (8 bits desde switches)
-    input  logic       select_pos,    // switch: 0 => displays muestran palabra; 1 => derecho muestra error
-    output logic [6:0] display_left,  // display izquierdo (palabra)
-    output logic [6:0] display_right, // display derecho (palabra o error)
-    output logic [3:0] led_out        // LEDs muestran la palabra corregida
+    input  logic       select_pos,    // switch: 0 => mostrar palabra; 1 => mostrar posición de error
+    output logic [6:0] seg,           // segmentos compartidos (a..g)
+    output logic [1:0] an,            // enable de los dos displays (a través de dip-switch hacia ánodos)
+    output logic [3:0] led_out,       // LEDs: palabra corregida
+    output logic       led_ded        // LED extra para doble error
 );
 
     // Señales internas
@@ -17,7 +18,7 @@ module modulo_top (
     logic       error_simple;
     logic       no_error;
 
-    // Detector: calcula sindrome y paridad global
+    // Detector de error
     modulo_detector_error detector (
         .datos_recibidos(palabra_rx),
         .sindrome(sindrome),
@@ -26,7 +27,7 @@ module modulo_top (
         .error_doble(error_doble)
     );
 
-    // Corrector: corrige palabra_rx usando sindrome + paridad
+    // Corrector de error
     modulo_corrector_error corrector (
         .sindrome(sindrome),
         .datos_recibidos(palabra_rx),
@@ -37,35 +38,28 @@ module modulo_top (
         .no_error(no_error)
     );
 
-    // Decodificador: obtiene los 4 bits de datos desde palabra corregida
+    // Decodificador de palabra corregida
     modulo_decodi decod (
         .datos_cod(corregido),
         .datos_out(datos_out)
     );
 
-    // LEDs: muestran la palabra corregida
+    // LEDs para la palabra corregida
     modulo_led leds_mod (
         .in(datos_out),
         .out(led_out)
     );
+    assign led_ded = error_doble;
 
-    // Display izquierdo: siempre muestra la palabra recibida (HEX)
-    modulo_7segmentos disp_word (
-        .data(datos_out),
-        .display(display_left)
-    );
-
-    // Display derecho: MUX entre palabra o error
+    // Conversión de palabra a 7 segmentos
     logic [6:0] seg_word;
-    logic [6:0] seg_error;
-
-    // Conversión de la palabra a display (como el izquierdo)
     modulo_7segmentos seg_word_inst (
         .data(datos_out),
         .display(seg_word)
     );
 
-    // Conversión del error a display
+    // Conversión del error/síndrome a 7 segmentos
+    logic [6:0] seg_error;
     modulo_display_error seg_error_inst (
         .sindrome(sindrome),
         .error_simple(error_simple),
@@ -74,12 +68,14 @@ module modulo_top (
         .display(seg_error)
     );
 
-    // MUX para decidir qué mostrar en el display derecho
+    // MUX para decidir qué patrón se envía a los segmentos
     always_comb begin
         if (select_pos == 1'b0) begin
-            display_right = seg_word;   // mostrar palabra
+            seg = seg_word;   // mostrar palabra
+            an  = 2'b10;      // habilita display izquierdo (dip-switch debe estar ON)
         end else begin
-            display_right = seg_error;  // mostrar error
+            seg = seg_error;  // mostrar posición de error
+            an  = 2'b01;      // habilita display derecho (dip-switch debe estar ON)
         end
     end
 
