@@ -1,4 +1,4 @@
-module modulo_detector_error(
+module module_detector_error(
     input  logic [7:0] datos_recibidos,  // Entrada de 8 bits [p1,p2,d1,p3,d2,d3,d4,p0]
     output logic [2:0] sindrome,         // Síndrome de error (p2,p1,p0)
     output logic       paridad_global,   // Paridad global (1 = número impar de 1s)

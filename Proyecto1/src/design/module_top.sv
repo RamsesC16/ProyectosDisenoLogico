@@ -1,4 +1,4 @@
-module modulo_top (
+module module_top (
     input  logic [3:0] entrada,       // palabra original (4 bits desde switches)
     input  logic [7:0] palabra_rx,    // palabra recibida/alterada (8 bits desde switches)
     input  logic       select_pos,    // switch: 0 => mostrar palabra; 1 => mostrar posición de error
@@ -19,7 +19,7 @@ module modulo_top (
     logic       no_error;
 
     // Detector de error
-    modulo_detector_error detector (
+    module_detector_error detector (
         .datos_recibidos(palabra_rx),
         .sindrome(sindrome),
         .paridad_global(paridad_global),
@@ -28,7 +28,7 @@ module modulo_top (
     );
 
     // Corrector de error
-    modulo_corrector_error corrector (
+    module_corrector_error corrector (
         .sindrome(sindrome),
         .datos_recibidos(palabra_rx),
         .paridad_global(paridad_global),
@@ -39,13 +39,13 @@ module modulo_top (
     );
 
     // Decodificador de palabra corregida
-    modulo_decodi decod (
+    module_decodi decod (
         .datos_cod(corregido),
         .datos_out(datos_out)
     );
 
     // LEDs para la palabra corregida
-    modulo_led leds_mod (
+    module_led leds_mod (
         .in(datos_out),
         .out(led_out)
     );
@@ -53,14 +53,14 @@ module modulo_top (
 
     // Conversión de palabra a 7 segmentos
     logic [6:0] seg_word;
-    modulo_7segmentos seg_word_inst (
+    module_7segmentos seg_word_inst (
         .data(datos_out),
         .display(seg_word)
     );
 
     // Conversión del error/síndrome a 7 segmentos
     logic [6:0] seg_error;
-    modulo_display_error seg_error_inst (
+    module_display_error seg_error_inst (
         .sindrome(sindrome),
         .error_simple(error_simple),
         .error_doble(error_doble),

@@ -3,83 +3,65 @@ BOARD  = tangnano9k
 FAMILY = GW1N-9C
 DEVICE = GW1NR-LV9QN88PC6/I5
 
-# Directorios
-SRC_DIR = ../src
-SIM_DIR = ../sim
+# ==== Nombre del proyecto ====
+PROYECT = Proyecto1
+
+# ==== Directorios ====
+SRC_DIR    = ../design
+SIM_DIR    = ../sim
 CONSTR_DIR = ../constr
 
-# Fuentes del proyecto
-SOURCES := $(wildcard $(SRC_DIR)/*.sv)
+# ==== Fuentes de diseño ====
+SOURCES := $(wildcard $(SRC_DIR)/*.v $(SRC_DIR)/*.sv)
 
-# ==== Configuración de síntesis (FPGA) ====
-TOP_DESIGN = modulo_top
-CONSTRAINTS = $(CONSTR_DIR)/proyecto1.cst
-PROYECT = proyecto1
+# ==== Fuente de simulación ====
+# (Se sobrescribe desde la terminal con: make test TESTBENCH=../sim/module_codi_tb.sv TOP_TB=module_codi_tb VCD_FILE=module_codi_tb.vcd)
+TESTBENCH ?= ../sim/module_top_tb.sv
+TOP_TB    ?= module_top_tb
+VCD_FILE  ?= module_top_tb.vcd
 
-# ==== Targets de simulación ====
+# ==== Constraints ====
+CONSTRAINTS = $(CONSTR_DIR)/module_constraints.cst
 
-# Codificador
-sim_codi: $(SRC_DIR)/modulo_codificador.sv $(SIM_DIR)/module_codi_tb.sv
-	iverilog -o sim_codi.o -s module_codi_tb -g2005-sv $^
-	vvp sim_codi.o
-	gtkwave module_codi_tb.vcd &
+# ==== Top design (nombre del módulo superior) ====
+TOP_DESIGN = module_top
 
-# Decodificador
-sim_decodi: $(SRC_DIR)/module_decodi.sv $(SIM_DIR)/module_decodi_tb.sv
-	iverilog -o sim_decodi.o -s module_decodi_tb -g2005-sv $^
-	vvp sim_decodi.o
-	gtkwave module_decodi_tb.vcd &
+# ==== Targets principales ====
+all: synth pnr bitstream load
 
-# Detector
-sim_detector: $(SRC_DIR)/modulo_detector_error.sv $(SIM_DIR)/module_detector_error_tb.sv
-	iverilog -o sim_detector.o -s module_detector_error_tb -g2005-sv $^
-	vvp sim_detector.o
-	gtkwave module_detector_error_tb.vcd &
+# Síntesis
+synth: ${SOURCES}
+	@echo "Ejecutando síntesis..."
+	@yosys -p "read_verilog -sv ${SOURCES}; synth_gowin -top ${TOP_DESIGN} -json ${PROYECT}.json" > synthesis_${BOARD}.log 2>&1
+	@echo "COMPLETADO"
 
-# Corrector
-sim_corrector: $(SRC_DIR)/modulo_corrector_error.sv $(SIM_DIR)/module_corrector_error_tb.sv
-	iverilog -o sim_corrector.o -s module_corrector_error_tb -g2005-sv $^
-	vvp sim_corrector.o
-	gtkwave module_corrector_error_tb.vcd &
+# Place & Route
+pnr: ${PROYECT}.json
+	@echo "Ejecutando PnR..."
+	@nextpnr-gowin --json ${PROYECT}.json --write ${PROYECT}_pnr.json --freq 27 --device ${DEVICE} --family ${FAMILY} --cst ${CONSTRAINTS} > pnr_${BOARD}.log 2>&1
+	@echo "COMPLETADO"
 
-# LEDs
-sim_led: $(SRC_DIR)/module_led.sv $(SIM_DIR)/module_led_tb.sv
-	iverilog -o sim_led.o -s module_led_tb -g2005-sv $^
-	vvp sim_led.o
-	gtkwave module_led_tb.vcd &
+# Bitstream
+bitstream: ${PROYECT}_pnr.json
+	@echo "Generando ${PROYECT}_${BOARD}.fs"
+	@gowin_pack -d ${FAMILY} -o ${PROYECT}_${BOARD}.fs ${PROYECT}_pnr.json
+	@echo "COMPLETADO"
 
-# Display 7 segmentos
-sim_display: $(SRC_DIR)/module_7segmentos.sv $(SIM_DIR)/module_7segmentos_tb.sv
-	iverilog -o sim_display.o -s module_7segmentos_tb -g2005-sv $^
-	vvp sim_display.o
-	gtkwave module_7segmentos_tb.vcd &
+# ==== Simulación ====
+test: ${SOURCES} ${TESTBENCH}
+	@iverilog -o ${PROYECT}_test.o -s ${TOP_TB} -g2005-sv ${TESTBENCH} ${SOURCES}
+	@vvp ${PROYECT}_test.o
 
-# Display error
-sim_disp_error: $(SRC_DIR)/module_display_error.sv $(SIM_DIR)/module_display_error_tb.sv
-	iverilog -o sim_disp_error.o -s module_display_error_tb -g2005-sv $^
-	vvp sim_disp_error.o
-	gtkwave module_display_error_tb.vcd &
+wv: ${VCD_FILE}
+	gtkwave ${VCD_FILE}
 
-# Sistema completo (top)
-sim_top: $(SOURCES) $(SIM_DIR)/modulo_top_tb.sv
-	iverilog -o sim_top.o -s modulo_top_tb -g2005-sv $^
-	vvp sim_top.o
-	gtkwave modulo_top_tb.vcd &
+# ==== Cargar en la FPGA ====
+load: ${PROYECT}_${BOARD}.fs
+	openFPGALoader -b ${BOARD} ${PROYECT}_${BOARD}.fs
 
-# ==== Flujo FPGA ====
-all: synth pnr bitstream
-
-synth: $(SOURCES)
-	yosys -p "read_verilog -sv $(SOURCES); synth_gowin -top $(TOP_DESIGN) -json $(PROYECT).json" > synthesis.log 2>&1
-
-pnr: $(PROYECT).json
-	nextpnr-gowin --json $(PROYECT).json --write $(PROYECT)_pnr.json --freq 27 --device $(DEVICE) --family $(FAMILY) --cst $(CONSTRAINTS) > pnr.log 2>&1
-
-bitstream: $(PROYECT)_pnr.json
-	gowin_pack -d $(FAMILY) -o $(PROYECT)_$(BOARD).fs $(PROYECT)_pnr.json
-
-load: $(PROYECT)_$(BOARD).fs
-	openFPGALoader -b $(BOARD) $(PROYECT)_$(BOARD).fs
-
+# ==== Limpieza ====
 clean:
 	rm -f *.o *.vcd *.json *_pnr.json *.fs
+
+.PHONY: load wv clean
+.INTERMEDIATE: ${PROYECT}_pnr.json ${PROYECT}.json

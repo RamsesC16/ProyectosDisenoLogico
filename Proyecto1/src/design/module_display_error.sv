@@ -1,4 +1,4 @@
-module modulo_display_error (
+module module_display_error (
     input  logic [2:0] sindrome,      // Síndrome de error (posición bit 0..7 en 3 bits)
     input  logic       error_simple,  // Flag: error simple corregido
     input  logic       error_doble,   // Flag: error doble no corregible
@@ -24,7 +24,7 @@ module modulo_display_error (
     end
 
     // Reutiliza el decodificador de hex a 7-seg
-    modulo_7segmentos seg_decoder (
+    module_7segmentos seg_decoder (
         .data(value_hex),
         .display(display)
     );

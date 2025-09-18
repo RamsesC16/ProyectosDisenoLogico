@@ -1,4 +1,4 @@
-module modulo_mux(
+module module_mux(
     input  logic [6:0] siete_seg,   // display de la palabra corregida
     input  logic [6:0] error,       // display de error/síndrome (incluye 'E' en caso de doble error)
     input  logic       swi,         // switch: 0 = mostrar palabra, 1 = mostrar error

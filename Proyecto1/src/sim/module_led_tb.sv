@@ -1,13 +1,13 @@
 `timescale 1ns/1ns
 
-module module_leds_tb;
+module module_led_tb;
 
     // Definición de las señales de prueba
     reg  [3:0] datos_in;   // Entrada de 4 bits (datos corregidos)
     wire [3:0] leds;       // Salida hacia LEDs
 
     // Instancia del módulo a probar
-    module_leds dut (
+    module_led dut (
         .datos_out(datos_in),
         .leds(leds)
     );

@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module modulo_mux_tb;
+module module_mux_tb;
 
     // Entradas de prueba
     reg  [6:0] siete_seg;   
