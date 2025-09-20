@@ -1,5 +1,7 @@
 # Nombre del proyecto
-
+**Proyecto 1**: Diseño digital combinacional en
+dispositivos programables. **Integrantes del grupo**: Julio David Quesada Hernández y Ramses Cortes Torres 
+El propósito de este proyecto fue familiarizarse con herramientas fundamentales en el campo de la electrónica y la ingeniería en general, específicamente el uso del lenguaje de descripción de hardware (HDL) y su aplicación práctica mediante una FPGA para el desarrollo de sistemas digitales.
 ## 1. Abreviaturas y definiciones
 - **FPGA**: Field Programmable Gate Ars
 ### 1.1 Descripción de proyecto y diagramas generales
