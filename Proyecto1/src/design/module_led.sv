@@ -1,4 +1,4 @@
-module modulo_led (
+module module_led (
     input  logic [3:0] in,   // datos originales corregidos (4 bits)
     output logic [3:0] out   // LEDs de la TangNano 9k (salida)
 );

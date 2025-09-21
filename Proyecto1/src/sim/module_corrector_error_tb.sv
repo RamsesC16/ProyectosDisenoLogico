@@ -1,49 +1,66 @@
 `timescale 1ns/1ns
 
-module module_detector_error_tb; 
+module module_corrector_error_tb;
 
     // Señales de prueba
-    reg  [7:0] datos_rec;      // Entrada: palabra de 8 bits codificada
-    wire [2:0] sin;            // Síndrome de error
-    wire       error;          // Señal de error detectado
-    wire       paridad;        // Paridad global
-    wire       error_doble;    // Flag de error doble
+    reg  [7:0] datos_rx;        // Palabra recibida (con posible error)
+    reg  [2:0] sindrome;        // Síndrome calculado
+    reg        paridad_global;  // Bit de paridad global
+    wire [7:0] datos_corr;      // Palabra corregida
 
-    // Instancia del módulo detector_error
-    module_detector_error dut (
-        .datos_recibidos(datos_rec),
-        .sindrome(sin),
-        .paridad_global(paridad),
-        .bit_error(error),
-        .error_doble(error_doble)
+    // Instancia del módulo corrector
+    module_corrector_error dut (
+        .sindrome(sindrome),
+        .datos_recibidos(datos_rx),
+        .paridad_global(paridad_global),
+        .datos_corregidos(datos_corr)
     );
 
+    // Procedimiento de prueba
     initial begin
-        $display("Tiempo | Entrada    | Sindrome | PG | Err | Doble");
-        $display("-------|------------|----------|----|-----|------");
+        $display("Tiempo | Recibido   | Sindrome | Paridad | Corregido ");
+        $display("-------|------------|----------|---------|-----------");
 
-        // Caso base: palabra sin error
-        datos_rec = 8'b0000_0000; #10;
-        $display("%0t | %b |   %b   |  %b |  %b  |  %b", $time, datos_rec, sin, paridad, error, error_doble);
+        // === Caso 1: Sin error ===
+        datos_rx = 8'b10000111; // palabra válida (ejemplo codificación de 0001)
+        sindrome = 3'b000;
+        paridad_global = 0;
+        #10;
+        $display("%t | %b |   %b   |    %b    | %b", 
+                  $time, datos_rx, sindrome, paridad_global, datos_corr);
 
-        // Inyectar errores simples en cada bit [0..7]
-        for (int i=0; i<8; i++) begin
-            datos_rec = 8'b0000_0000;
-            datos_rec[i] = ~datos_rec[i]; #10;
-            $display("%0t | %b |   %b   |  %b |  %b  |  %b", $time, datos_rec, sin, paridad, error, error_doble);
-        end
+        // === Caso 2: Error simple en un bit de dato ===
+        datos_rx = 8'b10000110; // mismo ejemplo con error en el bit 0
+        sindrome = 3'b001;      // detector diría "error en bit 0"
+        paridad_global = 1;
+        #10;
+        $display("%t | %b |   %b   |    %b    | %b", 
+                  $time, datos_rx, sindrome, paridad_global, datos_corr);
 
-        // Ejemplo de error doble
-        datos_rec = 8'b0000_0000;
-        datos_rec[0] = 1; 
-        datos_rec[1] = 1; #10;
-        $display("%0t | %b |   %b   |  %b |  %b  |  %b", $time, datos_rec, sin, paridad, error, error_doble);
+        // === Caso 3: Error en el bit de paridad global ===
+        datos_rx = 8'b00000111; // p0 alterado
+        sindrome = 3'b000;
+        paridad_global = 1;
+        #10;
+        $display("%t | %b |   %b   |    %b    | %b", 
+                  $time, datos_rx, sindrome, paridad_global, datos_corr);
 
-        $finish;
+        // === Caso 4: Error doble (no corregible) ===
+        datos_rx = 8'b11000110; // dos errores inyectados
+        sindrome = 3'b011;
+        paridad_global = 0;
+        #10;
+        $display("%t | %b |   %b   |    %b    | %b", 
+                  $time, datos_rx, sindrome, paridad_global, datos_corr);
+
+        // Fin de simulación
+        #10 $finish;
     end
 
+    // Para generar waveform
     initial begin
-        $dumpfile("module_detector_error_tb.vcd"); 
-        $dumpvars(0, module_detector_error_tb); 
+        $dumpfile("module_corrector_error_tb.vcd");
+        $dumpvars(0, module_corrector_error_tb);
     end
+
 endmodule

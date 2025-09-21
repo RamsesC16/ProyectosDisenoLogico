@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module modulo_top_tb;
+module module_top_tb;
 
     // Entradas al top
     reg  [3:0] entrada;       // palabra original (4 bits)
@@ -15,13 +15,13 @@ module modulo_top_tb;
 
     // Instancio el codificador para generar el código correcto desde 'entrada'
     wire [7:0] encoded;
-    modulo_codificador enc (
+    module_codi enc (
         .datos_in(entrada),
         .datos_cod(encoded)
     );
 
     // DUT
-    modulo_top dut (
+    module_top dut (
         .entrada(entrada),
         .palabra_rx(palabra_rx),
         .select_pos(select_pos),
@@ -61,8 +61,8 @@ module modulo_top_tb;
     end
 
     initial begin
-        $dumpfile("modulo_top_tb.vcd");
-        $dumpvars(0, modulo_top_tb);
+        $dumpfile("module_top_tb.vcd");
+        $dumpvars(0, module_top_tb);
     end
 
 endmodule
