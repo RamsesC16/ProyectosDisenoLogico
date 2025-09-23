@@ -1,9 +1,9 @@
 module module_led (
-    input  logic [3:0] in,   // datos originales corregidos (4 bits)
-    output logic [3:0] out   // LEDs de la TangNano 9k (salida)
+    input  logic [3:0] in,   // Datos corregidos (i3..i0)
+    output logic [3:0] out   // LEDs integrados (activos-bajo)
 );
 
-    // Si los LEDs son activos bajos en la placa, mantenemos la inversión:
+    // Inversión
     assign out = ~in;
 
 endmodule
