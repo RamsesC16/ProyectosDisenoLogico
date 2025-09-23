@@ -1,27 +1,28 @@
 IO_LOC  "an[1]" 69;
-IO_PORT "an[1]" IO_TYPE=LVCMOS33;
+IO_PORT "an[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
 IO_LOC  "an[0]" 68;
-IO_PORT "an[0]" IO_TYPE=LVCMOS33;
+IO_PORT "an[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
-IO_LOC  "seg[6]" 56;
+IO_LOC  "seg[6]" 51;
 IO_PORT "seg[6]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "seg[5]" 55;
+IO_LOC  "seg[5]" 42;
 IO_PORT "seg[5]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "seg[4]" 54;
+IO_LOC  "seg[4]" 41;
 IO_PORT "seg[4]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "seg[3]" 53;
+IO_LOC  "seg[3]" 73;
 IO_PORT "seg[3]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "seg[2]" 51;
+IO_LOC  "seg[2]" 72;
 IO_PORT "seg[2]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "seg[1]" 42;
+IO_LOC  "seg[1]" 71;
+IO_PORT "seg[1]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "seg[0]" 41;
+IO_LOC  "seg[0]" 70;
 IO_PORT "seg[0]" IO_TYPE=LVCMOS33;
 
 IO_LOC  "led_ded" 16;
@@ -39,7 +40,7 @@ IO_PORT "led_out[1]" DRIVE=8 IO_TYPE=LVCMOS18;
 IO_LOC  "led_out[0]" 10;
 IO_PORT "led_out[0]" DRIVE=8 IO_TYPE=LVCMOS18;
 
-IO_LOC  "select_pos" 26;
+IO_LOC  "select_pos" 55;
 IO_PORT "select_pos" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 
 IO_LOC  "palabra_rx[0]" 35;
