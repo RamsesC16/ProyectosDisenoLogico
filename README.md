@@ -464,44 +464,9 @@ endmodule
 ## 1.5 Problemas encontrados 
 Durante la implementación física del circuito en la FPGA se presentaron diversos inconvenientes que impidieron su correcto funcionamiento. Aunque la palabra de entrada sin error lograba visualizarse adecuadamente, el display de 7 segmentos destinado a mostrar el síndrome nunca funcionó como se esperaba. Adicionalmente, el switch encargado de seleccionar entre la visualización de la palabra corregida y la del síndrome presentó fallas, por lo que terminó utilizándose únicamente como un puente: al estar conectado mostraba el display del síndrome y al desconectarse mostraba la palabra corregida. A pesar de que los 7 segmentos encendían, las combinaciones desplegadas carecían de sentido.
 ## 2. Informe parte 2 del proyecto 1
-[Ver documento del proyecto](./doc/Proyecto 1, Parte 2.pdf)
+[Ver Proyecto1_Parte2.pdf](doc/Proyecto1_Parte2)
 
 ## 3. Referencias
 [0] David Harris y Sarah Harris. *Digital Design and Computer Architecture. RISC-V Edition.* Morgan Kaufmann, 2022. ISBN: 978-0-12-820064-3
 
-## 3. Desarrollo
 
-### 3.0 Descripción general del sistema
-
-### 3.1 Módulo 1
-#### 1. Encabezado del módulo
-```SystemVerilog
-module mi_modulo(
-    input logic     entrada_i,      
-    output logic    salida_i 
-    );
-```
-#### 2. Parámetros
-- Lista de parámetros
-
-#### 3. Entradas y salidas:
-- `entrada_i`: descripción de la entrada
-- `salida_o`: descripción de la salida
-
-#### 4. Criterios de diseño
-Diagramas, texto explicativo...
-
-#### 5. Testbench
-Descripción y resultados de las pruebas hechas
-
-### Otros modulos
-- agregar informacion siguiendo el ejemplo anterior.
-
-
-## 4. Consumo de recursos
-
-## 5. Problemas encontrados durante el proyecto
-
-## Apendices:
-### Apendice 1:
-texto, imágen, etc
