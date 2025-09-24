@@ -500,6 +500,8 @@ Durante la implementación física del circuito en la FPGA se presentaron divers
 <img width="409" height="127" alt="image" src="https://github.com/user-attachments/assets/cb6d44f4-ae0f-409a-bfdf-ac4e70d0a318" />
 
 ## Ramses Cortes Torres
+[Ver Proyecto1_Parte2.pdf](BitacoraP1Ramses.pdf)
+
 ## 4. Referencias
 [0] David Harris y Sarah Harris. *Digital Design and Computer Architecture. RISC-V Edition.* Morgan Kaufmann, 2022. ISBN: 978-0-12-820064-3
 
