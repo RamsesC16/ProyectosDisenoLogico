@@ -467,6 +467,18 @@ Durante la implementación física del circuito en la FPGA se presentaron divers
 [Ver Proyecto1_Parte2.pdf](Proyecto1_Parte2.pdf)
 ## 3. Bitácoras
 ## Julio David Quesada Hernández 
+<img width="429" height="590" alt="image" src="https://github.com/user-attachments/assets/e2803ab4-aff4-45fd-afd6-65eab99ad82a" />
+<img width="441" height="293" alt="image" src="https://github.com/user-attachments/assets/e96bbdda-5393-4eaa-be8d-9f24f175dea8" />
+<img width="448" height="554" alt="image" src="https://github.com/user-attachments/assets/43243d62-27e6-4df3-b7b2-961895af4fe6" />
+<img width="450" height="540" alt="image" src="https://github.com/user-attachments/assets/3be26034-8774-4fcc-86da-b90c3b79c6db" />
+<img width="440" height="485" alt="image" src="https://github.com/user-attachments/assets/31fc7ba5-1196-4137-84f1-9f55d37a0d96" />
+<img width="441" height="554" alt="image" src="https://github.com/user-attachments/assets/8a7a8f55-0b30-43b9-8f3c-63b39e562307" />
+<img width="415" height="565" alt="image" src="https://github.com/user-attachments/assets/c0b36541-63f0-455f-b190-12ac1788f4e8" />
+<img width="455" height="517" alt="image" src="https://github.com/user-attachments/assets/a720496a-3676-4bae-ba5a-44a3c1689544" />
+<img width="447" height="546" alt="image" src="https://github.com/user-attachments/assets/568070ca-5f32-45fe-8357-7041c0738a03" />
+<img width="455" height="536" alt="image" src="https://github.com/user-attachments/assets/3af820fa-2f09-42d7-97b8-0959d5229ebf" />
+<img width="409" height="127" alt="image" src="https://github.com/user-attachments/assets/cb6d44f4-ae0f-409a-bfdf-ac4e70d0a318" />
+
 ## Ramses Cortes Torres
 ## 4. Referencias
 [0] David Harris y Sarah Harris. *Digital Design and Computer Architecture. RISC-V Edition.* Morgan Kaufmann, 2022. ISBN: 978-0-12-820064-3
