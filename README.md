@@ -465,8 +465,10 @@ endmodule
 Durante la implementación física del circuito en la FPGA se presentaron diversos inconvenientes que impidieron su correcto funcionamiento. Aunque la palabra de entrada sin error lograba visualizarse adecuadamente, el display de 7 segmentos destinado a mostrar el síndrome nunca funcionó como se esperaba. Adicionalmente, el switch encargado de seleccionar entre la visualización de la palabra corregida y la del síndrome presentó fallas, por lo que terminó utilizándose únicamente como un puente: al estar conectado mostraba el display del síndrome y al desconectarse mostraba la palabra corregida. A pesar de que los 7 segmentos encendían, las combinaciones desplegadas carecían de sentido.
 ## 2. Informe parte 2 del proyecto 1
 [Ver Proyecto1_Parte2.pdf](Proyecto1_Parte2.pdf)
-
-## 3. Referencias
+## 3. Bitácoras
+## Julio David Quesada Hernández 
+## Ramses Cortes Torres
+## 4. Referencias
 [0] David Harris y Sarah Harris. *Digital Design and Computer Architecture. RISC-V Edition.* Morgan Kaufmann, 2022. ISBN: 978-0-12-820064-3
 
 
