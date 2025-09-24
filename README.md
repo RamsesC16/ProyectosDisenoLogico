@@ -383,9 +383,7 @@ module module_mux(
 
 endmodule
 
-## 1.3 Entradas y salidas: 
-
-## 1.4 Testbench
+## 1.3 Testbench
 
 ## Testbench top
 El testbench del top valida la integración de todos los módulos del sistema SEC-DED, generando estímulos de prueba que incluyen datos correctos y con errores. Permite comprobar la codificación, detección, corrección y visualización de errores, asegurando que el sistema completo funcione de forma coherente.
@@ -460,12 +458,13 @@ module module_top_tb;
 endmodule
 <img width="603" height="169" alt="image" src="https://github.com/user-attachments/assets/e99b6058-e957-42d6-a164-7abb8abbaf7e" />
 
-## 1.5 Consumo de recursos 
+## 1.4 Consumo de recursos 
 <img width="374" height="602" alt="image" src="https://github.com/user-attachments/assets/775449db-81b4-468d-ba7e-afed7a6a1fe9" />
 
-## 1.6 Problemas encontrados 
+## 1.5 Problemas encontrados 
 Durante la implementación física del circuito en la FPGA se presentaron diversos inconvenientes que impidieron su correcto funcionamiento. Aunque la palabra de entrada sin error lograba visualizarse adecuadamente, el display de 7 segmentos destinado a mostrar el síndrome nunca funcionó como se esperaba. Adicionalmente, el switch encargado de seleccionar entre la visualización de la palabra corregida y la del síndrome presentó fallas, por lo que terminó utilizándose únicamente como un puente: al estar conectado mostraba el display del síndrome y al desconectarse mostraba la palabra corregida. A pesar de que los 7 segmentos encendían, las combinaciones desplegadas carecían de sentido.
 ## 2. Informe parte 2 del proyecto 1
+[Ver documento del proyecto](./doc/Proyecto 1, Parte 2.pdf)
 
 ## 3. Referencias
 [0] David Harris y Sarah Harris. *Digital Design and Computer Architecture. RISC-V Edition.* Morgan Kaufmann, 2022. ISBN: 978-0-12-820064-3
