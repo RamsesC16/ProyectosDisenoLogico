@@ -458,10 +458,13 @@ module module_top_tb;
     end
 
 endmodule
+<img width="603" height="169" alt="image" src="https://github.com/user-attachments/assets/e99b6058-e957-42d6-a164-7abb8abbaf7e" />
+
 ## 1.5 Consumo de recursos 
+<img width="374" height="602" alt="image" src="https://github.com/user-attachments/assets/775449db-81b4-468d-ba7e-afed7a6a1fe9" />
 
 ## 1.6 Problemas encontrados 
-
+Durante la implementación física del circuito en la FPGA se presentaron diversos inconvenientes que impidieron su correcto funcionamiento. Aunque la palabra de entrada sin error lograba visualizarse adecuadamente, el display de 7 segmentos destinado a mostrar el síndrome nunca funcionó como se esperaba. Adicionalmente, el switch encargado de seleccionar entre la visualización de la palabra corregida y la del síndrome presentó fallas, por lo que terminó utilizándose únicamente como un puente: al estar conectado mostraba el display del síndrome y al desconectarse mostraba la palabra corregida. A pesar de que los 7 segmentos encendían, las combinaciones desplegadas carecían de sentido.
 ## 2. Informe parte 2 del proyecto 1
 
 ## 3. Referencias
